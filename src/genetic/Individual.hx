@@ -7,15 +7,14 @@ package genetic;
 class Individual {
 	public var dna: String;
 	public var fitness: Float;
-	public var x: UInt;
-	public var y: UInt;
-	public var z: UInt;
+	public var position: Array<UInt>;
 
-	public function new(position: Array<UInt>, ?dna: String, ?fitness: Float) {
-		init(dna, fitness);
+	public function new(?position: Array<UInt>, ?dna: String, ?fitness: Float) {
+		init(position, dna, fitness);
 	}
 	
-	public function init(?dna: String, ?fitness: Float) {
+	public function init(?position: Array<UInt>, ?dna: String, ?fitness: Float) {
+		this.position = position == null ? new Array<UInt>() : position;
 		this.dna = dna == null ? "" : dna;
 		this.fitness = fitness == null ? 0 : fitness;
 	}
