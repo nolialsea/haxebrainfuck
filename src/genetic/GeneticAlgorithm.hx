@@ -32,7 +32,7 @@ class GeneticAlgorithm {
 		return indi;
 	}
 	
-	//Create 
+	//Create a new individual by selection/
 	public function getNewIndividual() : Individual {
 		
 		return new Individual();
@@ -49,6 +49,16 @@ class GeneticAlgorithm {
 	public function getFitness(bf: Brainfuck) : Float {
 		
 		return 0;
+	}
+	
+	public function cross() : Individual {
+		
+		return new Individual();
+	}
+	
+	public function mutate(indi: Individual) : Individual {
+		
+		return new Individual();
 	}
 	
 }

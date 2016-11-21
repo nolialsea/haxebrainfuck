@@ -7,8 +7,11 @@ package genetic;
 class Individual {
 	public var dna: String;
 	public var fitness: Float;
+	public var x: UInt;
+	public var y: UInt;
+	public var z: UInt;
 
-	public function new(?dna: String, ?fitness: Float) {
+	public function new(position: Array<UInt>, ?dna: String, ?fitness: Float) {
 		init(dna, fitness);
 	}
 	
