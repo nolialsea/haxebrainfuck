@@ -1,0 +1,15 @@
+-main Main
+-cp src
+-dce full
+
+--each
+
+-neko bin/Brainfuck.n
+
+--next
+
+-js bin/output.js
+
+--next
+
+-cpp bin/out

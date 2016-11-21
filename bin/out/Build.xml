@@ -1,0 +1,153 @@
+<xml>
+<set name="HXCPP_API_LEVEL" value="321" />
+<files id="haxe">
+<compilerflag value="-Iinclude"/>
+  <file name="src/haxe/io/StringInput.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/StringInput.h"/>
+  </file>
+  <file name="src/haxe/io/Error.cpp">
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/haxe/io/Eof.cpp">
+   <depend name="include/haxe/io/Eof.h"/>
+  </file>
+  <file name="src/haxe/io/BytesOutput.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesBuffer.h"/>
+   <depend name="include/haxe/io/BytesOutput.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+  </file>
+  <file name="src/haxe/io/Output.cpp">
+   <depend name="include/haxe/io/Output.h"/>
+  </file>
+  <file name="src/haxe/io/BytesInput.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+  </file>
+  <file name="src/haxe/io/Input.cpp">
+   <depend name="include/haxe/io/Input.h"/>
+  </file>
+  <file name="src/haxe/io/BytesBuffer.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesBuffer.h"/>
+  </file>
+  <file name="src/haxe/io/Bytes.cpp">
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/haxe/io/ArrayBufferViewImpl.cpp">
+   <depend name="include/haxe/io/ArrayBufferViewImpl.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+  </file>
+  <file name="src/haxe/Log.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/brainfuck/Lock.cpp">
+   <depend name="include/brainfuck/Lock.h"/>
+  </file>
+  <file name="src/brainfuck/BfInfiniteLoop.cpp">
+   <depend name="include/brainfuck/BfInfiniteLoop.h"/>
+  </file>
+  <file name="src/brainfuck/BfEndAt.cpp">
+   <depend name="include/brainfuck/BfEndAt.h"/>
+  </file>
+  <file name="src/brainfuck/BfEnd.cpp">
+   <depend name="include/brainfuck/BfEnd.h"/>
+  </file>
+  <file name="src/brainfuck/EndOfInputError.cpp">
+   <depend name="include/brainfuck/EndOfInputError.h"/>
+  </file>
+  <file name="src/brainfuck/EndOfProgramError.cpp">
+   <depend name="include/brainfuck/EndOfProgramError.h"/>
+  </file>
+  <file name="src/brainfuck/CPU.cpp">
+   <depend name="include/EReg.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/brainfuck/BfEnd.h"/>
+   <depend name="include/brainfuck/BfEndAt.h"/>
+   <depend name="include/brainfuck/BfInfiniteLoop.h"/>
+   <depend name="include/brainfuck/Brainfuck.h"/>
+   <depend name="include/brainfuck/CPU.h"/>
+   <depend name="include/brainfuck/EndOfInputError.h"/>
+   <depend name="include/brainfuck/EndOfProgramError.h"/>
+   <depend name="include/brainfuck/InvalidMemoryAccessError.h"/>
+   <depend name="include/haxe/io/ArrayBufferViewImpl.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/BytesOutput.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+   <depend name="include/haxe/io/StringInput.h"/>
+  </file>
+  <file name="src/brainfuck/InvalidMemoryAccessError.cpp">
+   <depend name="include/brainfuck/InvalidMemoryAccessError.h"/>
+  </file>
+  <file name="src/brainfuck/Brainfuck.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/brainfuck/Brainfuck.h"/>
+   <depend name="include/brainfuck/CPU.h"/>
+   <depend name="include/brainfuck/InvalidMemoryAccessError.h"/>
+   <depend name="include/brainfuck/Lock.h"/>
+   <depend name="include/haxe/io/ArrayBufferViewImpl.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesInput.h"/>
+   <depend name="include/haxe/io/BytesOutput.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+   <depend name="include/haxe/io/StringInput.h"/>
+  </file>
+  <file name="src/Std.cpp">
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/Main.cpp">
+   <depend name="include/Main.h"/>
+   <depend name="include/brainfuck/Brainfuck.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/io/ArrayBufferViewImpl.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+  </file>
+  <file name="src/EReg.cpp">
+   <depend name="include/EReg.h"/>
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/cpp/Lib.cpp">
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/__boot__.cpp">
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/EReg.h"/>
+  </file>
+  <file name="src/__files__.cpp">
+  </file>
+  <file name="src/__resources__.cpp">
+  </file>
+</files>
+<files id="__lib__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__lib__.cpp">
+   <depend name="include/Main.h"/>
+  </file>
+</files>
+<files id="__main__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__main__.cpp">
+   <depend name="include/Main.h"/>
+  </file>
+</files>
+<files id="__resources__">
+</files>
+<files id="__externs__">
+</files>
+<set name="HAXE_OUTPUT" value="Main" />
+<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+</xml>

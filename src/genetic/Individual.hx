@@ -16,5 +16,4 @@ class Individual {
 		this.dna = dna == null ? "" : dna;
 		this.fitness = fitness == null ? 0 : fitness;
 	}
-	
 }
