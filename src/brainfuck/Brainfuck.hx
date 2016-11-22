@@ -20,6 +20,7 @@ class Brainfuck {
 	public var output:Output;
 	public var lock: Array<Lock> = new Array<Lock>();
 	public var cpu: Array<CPU> = new Array<CPU>();
+	public var error: Null<Dynamic> = null;
 	
 	public function execute (bfCode: String, ?type:Null<Int> = null) : Brainfuck{
 		init(bfCode, type);
@@ -41,6 +42,7 @@ class Brainfuck {
 		this.output = output == null ? new BytesOutput() : output;
 		this.memory = memory == null ? new UInt8Array(memorySize) : memory;
 		lock.splice(0, lock.length);
+		error = null;
 		cpu.push(new CPU(program, type, this.input, this.output, this));
 		
 		return this;
@@ -65,7 +67,7 @@ class Brainfuck {
 					try{
 						cpu[c].step();
 					}catch (e:Dynamic){
-						//trace(e.toString());
+						error = e;
 					}
 				}
 			}

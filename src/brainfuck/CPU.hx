@@ -33,6 +33,7 @@ class CPU {
 	public var initialData: String;
 	public var bf: Brainfuck;
 	public var alive: Bool;
+	public var error: Dynamic;
 	
 	public function new(?program:String = "", ?type:Null<Int>, ?input: Input, ?output:Output, ?bf:Brainfuck) {
 		init(program,type, input,output,bf);
@@ -90,6 +91,7 @@ class CPU {
 	}
 	
 	public function init(?program:String = "", ?type:Null<Int>, ?input: Input, ?output:Output, ?bf:Brainfuck) {
+		error = null;
 		id = Math.random();
 		maxStep = 42000;
 		programType = type == null ? getProgramType(program) : type;
@@ -119,6 +121,7 @@ class CPU {
 				}
 			}
 		}catch (e:Dynamic){
+			error = e;
 			throw e;
 		}
 
@@ -127,7 +130,6 @@ class CPU {
 	
 	public function step() : Bool{
 		if (alive){
-			ticks++;
 			try{
 				if (ticks >= maxStep){
 					throw new BfInfiniteLoop();
@@ -138,10 +140,11 @@ class CPU {
 				}
 
 				if (runCommand(programType < 2 ? program.charAt(programPosition) : String.fromCharCode(memory.get(programPosition)))){
-					
+					ticks++;
 				}
 			}catch (e:Dynamic){
 				alive = false;
+				error = e;
 				throw e;
 			}
 		}

@@ -12,7 +12,7 @@ import haxe.io.UInt8Array;
 * @author Hugo Diranzo
 */
 class Main {
-	public var bf:Brainfuck = new Brainfuck();
+	public static var bf:Brainfuck = new Brainfuck();
 	
 	private static function onFinish(x:Dynamic):Void{
 		trace(x);
@@ -28,11 +28,11 @@ class Main {
 		}
 		threadPool.blockRunAllTasks();*/
 		
-		/*trace(bf.execute("++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.").getOutput());
+		trace(bf.execute("++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.").getOutput());
 		trace(bf.execute("++++{+{{{.$>-}}^>++{{{++$<^.$>[-]++{{+^..$>+++|.>++{{{{.<<<<$>>>>>-}}}^.<<.+++.<.<-.>>>+.@").getOutput());
 		trace(bf.execute(">++{{$+*.>!++$*+.>!*=--..$>!+++.>++{${*.>++$</$>![<]!-$>=.>>>.+++.<.<-.<<=+++.@").getOutput());
 		trace(bf.execute("[.>]@Hello World!").getOutput());
-		trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.--------.2+.").getOutput());*/
+		trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.--------.2+.").getOutput());
 		
 		var ga : GeneticAlgorithm = new GeneticAlgorithm(100);
 		
