@@ -12,12 +12,18 @@ trace(bf.execute(">++{{$+*.>!++$*+.>!*=--..$>!+++.>++{${*.>++$</$>![<]!-$>=.>>>.
 trace(bf.execute("[.>]@Hello World!").getOutput());
 trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.--------.2+.").getOutput());
 ```
+Here the type of the brainfuck is assumed based on chars used  
+If you put only chars with vanilla instructions, it will be type 0
 
-You can enforce extended types  
+####But I want vanilla brainfuck with comments !
+Woah, calm the f*ck down, you can pass a second argument to enforce the type :  
 ```haxe
 trace(bf.execute("[.>]@Hello World!", 0).getOutput());
 ```
 Note that this does nothing interesting since it is Extended III code, running with vanilla Brainfuck rules  
+
+Keep in mind that type 2 and above heavily change how the memory is handled, and what it contains (check [Extended Brainfuck] (https://esolangs.org/wiki/Extended_Brainfuck))  
+Type 2 memory system is what **allows self-modifying brainfuck**
 
 ####Types
   0 : Vanilla Brainfuck  
