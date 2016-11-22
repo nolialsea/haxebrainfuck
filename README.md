@@ -15,7 +15,7 @@ trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.
 Here the type of the brainfuck is assumed based on chars used  
 If you put only chars with vanilla instructions, it will be type 0
 
-####But I want vanilla brainfuck with comments !
+####But I want vanilla Brainfuck with comments !
 Woah, calm the f*ck down, you can pass a second argument to enforce the type :  
 ```haxe
 trace(bf.execute("[.>]@Hello World!", 0).getOutput());
