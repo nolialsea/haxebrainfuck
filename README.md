@@ -1,10 +1,6 @@
 # haxebrainfuck
 Brainfuck interpreter with extended types in haxe
 
-Don't mind the CPU thing, I intended to run multiple "threads" on the same memory alternatively, but it was for another project.  
-Just consider it's a single core and it will be fine.  
-I will rewrite this part, if I feel I need to, maybe, one day. Maybe never.  
-
 ####Example  
 ```haxe
 var bf: Brainfuck = new Brainfuck();
@@ -67,6 +63,9 @@ Most of the above still applies
 
 
 ####What the f*ck is a CPU ?
+Don't mind the CPU thing, I intended to run multiple "threads" on the same memory alternatively, but it was for another project.  
+Just consider it's a single core and it will be fine.  
+I will rewrite this part, if I feel I need to, maybe, one day. Maybe never.  
 Basically, I intended to create a simplified [Avida] (https://en.wikipedia.org/wiki/Avida) like program.  
 Each "creature" would be a cpu, running a brainfuck program (which would be part of its DNA) on a shared memory.  
 Brainfuck seemed one of the best choices for the programming langage, since it is crazy simple, and can be extended indefinitively.
