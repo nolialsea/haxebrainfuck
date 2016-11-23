@@ -57,16 +57,15 @@ When Simon is given to a Thread :
   - The Brainfuck object runs the program, storing several data at the same time (memory, number of ticks, error, ...)
   - The Thread returns the Brainfuck object and Simon's position to the GA
   
-When the GA is given a Brainfuck object (and Simon's position) :
+When the GA is given the Brainfuck object (and Simon's position) :
   - It evaluate its fitness : this is where the magic really happens
   - The worst individual at Simon's location (his position adjacent cells) is compared to Simon :
     If Simon is stronger, he... Kill the opponent, and take his place in the population
-    If Simon is weaker, he dies, and nothing more happen, the opponent keep his position in the population
+    If Simon is weaker, there is still a chance that he survive and take the place of the opponent
 
-I might actually do another way. The processus above will cause the local optimum problem.  
-Maybe kill part of the population, reproduce the survivors until the population is full, then repeat  
-Most of the above still applies
-
+Handling population can be hard, you can't always keep only the bests due to the local maximum problem.  
+If the entire population takes a bad turn in the evolution, it can be stuck and the fitness will stagnate.  
+To ensure a durable and efficient evolution, you can either make a bigger population, or, like here, avoid the population from mating with other individuals that are "far". This method, i hope, will create different "families" across the population, rather than a big one.
 
 ###What the f*ck is a CPU ?
 Don't mind the CPU thing, I intended to run multiple "threads" on the same memory alternatively, but it was for another project.  
