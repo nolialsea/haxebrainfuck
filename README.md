@@ -65,7 +65,8 @@ When the GA is given the Brainfuck object (and Simon's position) :
 
 Handling population can be hard, you can't always keep only the bests due to the local maximum problem.  
 If the entire population takes a bad turn in the evolution, it can be stuck and the fitness will stagnate.  
-To ensure a durable and efficient evolution, you can either make a bigger population, or, like here, avoid the population from mating with other individuals that are "far". This method, i hope, will create different "families" across the population, rather than a big one.
+To ensure a durable and efficient evolution, you can either make a bigger population, or, like here, avoid the population from mating with other individuals that are "far". This method, i hope, will create different "families" across the population, rather than a big one.  
+In general, the bigger the population, the better, but here is the catch : the evolution will be slower too. If you have more individuals, you'll have to do more calculation to make one "generation" live.
 
 ###What the f*ck is a CPU ?
 Don't mind the CPU thing, I intended to run multiple "threads" on the same memory alternatively, but it was for another project.  
