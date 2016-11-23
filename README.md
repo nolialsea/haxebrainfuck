@@ -29,7 +29,7 @@ Type 2 memory system is what **allows self-modifying brainfuck**
   0 : Vanilla Brainfuck  
   1 : Extended Type I  
   2 : Extended Type II  
-  3 : Extended Type III (missing)
+  3 : Extended Type III (missing parentheses commands)
 
 ###Genetic Algorithm
 I'm currently working on the Genetic Algorithm, which will be used to generate brainfuck programs.
