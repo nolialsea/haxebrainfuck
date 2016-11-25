@@ -44,20 +44,14 @@ class Main {
 			bf.execute(s);
 		}*/
 		
-		var ga : GeneticAlgorithm = new GeneticAlgorithm(10);
-		
-		ga.fitnessFunction = function (bf: Brainfuck, indi:Individual) : Float{
+		var ga : GeneticAlgorithm = new GeneticAlgorithm(10, function (bf: Brainfuck, indi:Individual) : Float{
 			var fitness: Float = 0;
 			//trace(indi.dna);
 			bf.execute(indi.dna);
 			return fitness;
-		}
-		
-		try{
-			ga.evaluateFirstPopulation(bf);
-		}catch (e:Dynamic){
-			trace(e);
-		}
+		});
+
+		ga.evaluateFirstPopulation(bf);
 		
 		//trace("FITNESS " + ga.population[0][0].fitness);
 		

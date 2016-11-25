@@ -28,7 +28,6 @@ class Brainfuck {
 		return this;
 	}
 	
-	
 	public function getOutput() : String {
 		return cast(output, BytesOutput).getBytes().toString();
 	}

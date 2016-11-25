@@ -10,13 +10,14 @@ class GeneticAlgorithm {
 	public var population: Array<Array<Individual>>;
 	public var fitnessFunction: Brainfuck -> Individual -> Float;
 	
-	public function new(?populationSize:UInt = 100) {
-		init(populationSize);
+	public function new(?populationSize:UInt = 100, fitnessFunction: Brainfuck -> Individual -> Float) {
+		init(populationSize, fitnessFunction);
 	}
 	
-	public function init(?populationSize:UInt) : GeneticAlgorithm{
+	public function init(?populationSize:UInt, fitnessFunction: Brainfuck -> Individual -> Float) : GeneticAlgorithm{
 		this.populationSize = populationSize != null ? populationSize : 100;
 		population = [for (x in 0...populationSize) [for (y in 0...populationSize) getRandomIndividual(64, [x, y])]];
+		this.fitnessFunction = fitnessFunction;
 		
 		return this;
 	}
@@ -35,10 +36,9 @@ class GeneticAlgorithm {
 	//Create a brand new random individual
 	public static function getRandomIndividual(?dnaLength:UInt = 64, ?position:Array<UInt>) : Individual{
 		var indi : Individual = new Individual(position);
-		for (i in 0...(dnaLength-1)){
+		for (i in 0...(dnaLength)){
 			indi.dna += getRandomGene();
 		}
-		indi.dna += "@";
 		return indi;
 	}
 	
@@ -58,7 +58,7 @@ class GeneticAlgorithm {
 	public function evaluateFirstPopulation(bf: Brainfuck) : Void {
 		for (i in 0...populationSize){
 			for (j in 0...populationSize){
-				population[i][j].fitness = calculateFitness(bf, population[i][j]);
+				population[i][j].fitness = fitnessFunction(bf, population[i][j]);
 			}
 		}
 	}
@@ -77,10 +77,6 @@ class GeneticAlgorithm {
 	
 	public function mutate(indi: Individual) : Individual {
 		return new Individual();
-	}
-
-	public function calculateFitness(bf: Brainfuck, indi:Individual) : Float{
-		return fitnessFunction(bf, indi);
 	}
 	
 }

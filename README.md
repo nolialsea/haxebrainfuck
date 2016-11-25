@@ -32,7 +32,7 @@ Type 2 memory system is what **allows self-modifying brainfuck**
   3 : Extended Type III (missing parentheses commands)
 
 ###Genetic Algorithm
-I'm currently working on the Genetic Algorithm, which will be used to generate brainfuck programs.
+I'm currently working on the Genetic Algorithm, which will be used to generate brainfuck programs (it's far from finished yet).
 In theory, you can produce ANY program. But here is the catch... You have to ask the right thing.  
 Deep Thought was asked the answer to life the universe and everything, and it takes 7,500,000 years to give the answer 42.  
 You will face the same kind of problems if you don't know how to ask the machine.  
