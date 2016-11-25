@@ -1,0 +1,1 @@
+cd bin && cd out && Main.exe && cd .. && cd ..

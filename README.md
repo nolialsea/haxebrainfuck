@@ -87,7 +87,5 @@ This Avida like program required to extend the commands with new simulation rela
 - [ ] Implement missing commands (parentheses)  
   This require to implement how locks are handled when the memory size changes  
   If a byte is removed or added somewhere, all the locks should have their position updated
-- [ ] Finish the CPU thing  
-  This will cause conflict with Extended Type II
-  If the type is 2 or superior, the way memory is handled change completely to allow the Brainfuck program to modify its own code during the execution ( how f*cking neat is that ? )
+- [ ] Merge Brainfuck and CPU classes, since i don't plan to use "multiple threads" anymore on this project
   

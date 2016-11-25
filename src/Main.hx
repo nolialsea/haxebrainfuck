@@ -28,13 +28,39 @@ class Main {
 		}
 		threadPool.blockRunAllTasks();*/
 		
-		trace(bf.execute("++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.").getOutput());
+		/*trace(bf.execute("++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.").getOutput());
 		trace(bf.execute("++++{+{{{.$>-}}^>++{{{++$<^.$>[-]++{{+^..$>+++|.>++{{{{.<<<<$>>>>>-}}}^.<<.+++.<.<-.>>>+.@").getOutput());
 		trace(bf.execute(">++{{$+*.>!++$*+.>!*=--..$>!+++.>++{${*.>++$</$>![<]!-$>=.>>>.+++.<.<-.<<=+++.@").getOutput());
 		trace(bf.execute("[.>]@Hello World!").getOutput());
-		trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.--------.2+.").getOutput());
+		trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.--------.2+.").getOutput());*/
 		
-		var ga : GeneticAlgorithm = new GeneticAlgorithm(100);
 		
+		
+		/*for (i in 0...1000){
+			var s = "";
+			for (j in 0...100){
+				s += GeneticAlgorithm.getRandomGene();
+			}
+			bf.execute(s);
+		}*/
+		
+		var ga : GeneticAlgorithm = new GeneticAlgorithm(10);
+		
+		ga.fitnessFunction = function (bf: Brainfuck, indi:Individual) : Float{
+			var fitness: Float = 0;
+			//trace(indi.dna);
+			bf.execute(indi.dna);
+			return fitness;
+		}
+		
+		try{
+			ga.evaluateFirstPopulation(bf);
+		}catch (e:Dynamic){
+			trace(e);
+		}
+		
+		//trace("FITNESS " + ga.population[0][0].fitness);
+		
+		//trace(ga.getRandomIndividualFromPopulation());
 	}
 }

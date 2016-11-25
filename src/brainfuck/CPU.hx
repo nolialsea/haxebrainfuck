@@ -208,14 +208,16 @@ class CPU {
 				var val;
 				try {
 					val = input.readByte();
+					try {
+						memory.set(pointer,val);
+					} catch (e:Dynamic) {
+						throw new InvalidMemoryAccessError();
+					}
 				} catch (e:Eof) {
-					throw new EndOfInputError();
+					//Fails silently
+					//throw new EndOfInputError();
 				}
-				try {
-					memory.set(pointer,val);
-				} catch (e:Dynamic) {
-					throw new InvalidMemoryAccessError();
-				}
+				
 				moveToNextCommand();
 				
 			case '[': //Jump forward past the matching ] if the byte at the pointer is zero.
@@ -402,9 +404,9 @@ class CPU {
 			case '/': //Divides the byte at the pointer with the byte in storage, storing its result in the byte at the pointer.
 				if (programType >= 2 && !comment){
 					if (storagePointer == null){
-						bf.assign(pointer, id, Std.int(memory.get(pointer) / memory.get(0)));
+						bf.assign(pointer, id, Std.int(memory.get(pointer) / (memory.get(0) == 0 ? 1 : memory.get(0))));
 					}else{
-						bf.assign(pointer, id, Std.int(memory.get(pointer) / memory.get(storagePointer)));
+						bf.assign(pointer, id, Std.int(memory.get(pointer) / (memory.get(storagePointer) == 0 ? 1 : memory.get(storagePointer))));
 					}
 				}
 				moveToNextCommand();
@@ -429,9 +431,9 @@ class CPU {
 			case '%': //Preforms a Modulo operation on the byte at the pointer and the byte in storage, storing its result in the byte at the pointer.
 				if (programType >= 2 && !comment){
 					if (storagePointer == null){
-						bf.assign(pointer, id, memory.get(pointer) % memory.get(0));
+						bf.assign(pointer, id, memory.get(pointer) % (memory.get(0) == 0 ? 1 : memory.get(0)));
 					}else{
-						bf.assign(pointer, id, memory.get(pointer) % memory.get(storagePointer));
+						bf.assign(pointer, id, memory.get(pointer) % (memory.get(storagePointer) == 0 ? 1 : memory.get(storagePointer)));
 					}
 				}
 				moveToNextCommand();
