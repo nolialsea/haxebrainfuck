@@ -18,9 +18,9 @@ If you put only chars with vanilla instructions, it will be type 0
 ###But I want vanilla Brainfuck with comments !
 Woah, calm the f*ck down, you can pass a second argument to enforce the type :  
 ```haxe
-trace(bf.execute("[.>]@Hello World!", 0).getOutput());
+trace(bf.execute("[.>]@Hello World!", 1).getOutput());	//Enforced Type 1
 ```
-Note that this does nothing interesting since it is Extended III code, running with vanilla Brainfuck rules  
+Note that this does nothing interesting since it is Extended II code, running with Type I rules  
 
 Keep in mind that type 2 and above heavily change how the memory is handled, and what it contains (check [Extended Brainfuck] (https://esolangs.org/wiki/Extended_Brainfuck))  
 Type 2 memory system is what **allows self-modifying brainfuck**
