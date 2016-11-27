@@ -94,6 +94,7 @@ class GeneticAlgorithm {
 			for (j in 0...population[i].length){
 				if (population[i][j] == null) {
 					var nearest : Array<Individual> = new Array<Individual>();
+					var indi: Null<Individual> = null;
 					
 					//find the nearest individuals
 					for (k in -1...2){
@@ -109,13 +110,19 @@ class GeneticAlgorithm {
 						}
 					}
 					
-					
 					if (nearest.length > 1){
+						//Random parents among nearests
 						shuffleArray(nearest);
-						
+						if (Math.random() < cloningChance){
+							indi = mutate(nearest[0]);
+						}else{
+							cross(nearest[0], nearest[1]);
+						}
 					}else if (nearest.length == 1){
-						
+						indi = mutate(nearest[0]);
 					}
+					
+					population[i][j] = indi;
 				}
 			}
 		}
@@ -126,14 +133,55 @@ class GeneticAlgorithm {
 	}
 	
 	public function cross(parent1: Individual, parent2: Individual) : Individual {
+		var indi: Null<Individual> = null;
+		
+		if (Math.random() < 0.5){
+			indi = crossPoint(parent1, parent2);
+		}else{
+			indi = crossMix(parent1, parent2);
+		}
+		
+		return indi;
+	}
+	
+	//Each gene have 50/50 chances of being from parent1/parent2
+	public function crossMix (parent1: Individual, parent2: Individual) : Individual{
 		var indi = new Individual();
 		for (i in 0...parent1.dna.length){
-			
+			if (parent2.dna.length <= i){
+				indi.dna += parent1.dna.charAt(i);
+			}else{
+				indi.dna += Math.random() < 0.5 ? parent1.dna.charAt(i) : parent2.dna.charAt(i);
+			}
 		}
 		return indi;
 	}
 	
-	public function mutate(indi: Individual) : Individual {
+	//Child get one part of parent1 DNA, the other from parent2
+	public function crossPoint (parent1: Individual, parent2: Individual) : Individual{
+		var indi = new Individual();
+		var point : UInt = Std.int(Math.floor(Math.random()*Math.min(parent1.dna.length, parent2.dna.length)));
+		for (i in 0...parent2.dna.length){
+			if (point < i){
+				indi.dna += parent1.dna.charAt(i);
+			}else{
+				indi.dna += parent2.dna.charAt(i);
+			}
+		}
+		return indi;
+	}
+	
+	public function mutate(parent: Individual) : Individual {
+		var indi = new Individual();
+		
+		for (i in 0...parent.dna.length){
+			indi.dna += parent.dna.charAt(i);
+		}
+		
+		while (Math.random() < 0.5){
+			
+		}
+		
 		return new Individual();
 	}
 	
