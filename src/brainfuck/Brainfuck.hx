@@ -59,7 +59,6 @@ class Brainfuck {
 	
 	public function run(): Brainfuck {
 		while (true){
-			var allDead = true;
 			if (cpu.alive){
 				try{
 					cpu.step();
@@ -67,6 +66,8 @@ class Brainfuck {
 					trace(e);
 					error = e;
 				}
+			}else{
+				break;
 			}
 		}
 

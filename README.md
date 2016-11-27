@@ -89,5 +89,4 @@ This Avida like program required to extend the commands with new simulation rela
 - [ ] Implement missing commands (parentheses)  
   This require to implement how locks are handled when the memory size changes  
   If a byte is removed or added somewhere, all the locks should have their position updated
-- [ ] Merge Brainfuck and CPU classes, since i don't plan to use "multiple threads" anymore on this project
   

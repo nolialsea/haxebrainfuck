@@ -2,7 +2,7 @@
 <project version="2">
   <!-- Output SWF options -->
   <output>
-    <movie outputType="CustomBuild" />
+    <movie outputType="Application" />
     <movie input="" />
     <movie path="bin\Brainfuck.n" />
     <movie fps="0" />
@@ -46,7 +46,7 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="Custom" />
-    <option testMovieCommand="haxe build.hxml &amp;&amp; run.bat" />
+    <option testMovieCommand="haxe build.hxml &amp;&amp; Run.bat" />
   </options>
   <!-- Plugin storage -->
   <storage />
