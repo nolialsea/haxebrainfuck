@@ -81,11 +81,8 @@ This Avida like program required to extend the commands with new simulation rela
 
 ##TODO
 - [ ] Finish the genetic algorithm  
-  - [ ] Function to kill part of the population  
+  - [x] Function to kill part of the population  
   - [ ] Function to refill the population (using nearest best parents)
-- [ ] Rewrite the switch that reads the instructions  
-  Make it a static map ! This will allow to easily append new commands  
-  Maybe a Map < String, Brainfuck ->  Void >
 - [ ] Implement missing commands (parentheses)  
   This require to implement how locks are handled when the memory size changes  
   If a byte is removed or added somewhere, all the locks should have their position updated
