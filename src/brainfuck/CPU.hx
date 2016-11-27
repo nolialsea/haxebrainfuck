@@ -95,8 +95,8 @@ class CPU {
 		commands.set("=", add);
 		commands.set("_", sub);
 		commands.set("%", mod);
-		//commands.set(")", insertCell);	//Missing command
-		//commands.set("(", removeCell);	//Missing command
+		commands.set(")", insertCell);
+		commands.set("(", removeCell);
 		
 		//Extended Type III
 		commands.set(":", jumpCommandPointer);
@@ -324,7 +324,7 @@ class CPU {
 					
 					c = moveToNextCommand();
 					if (c == null) {
-						throw new EndOfProgramError();
+						throw new BfEnd();
 					}
 				}
 			} else {
@@ -362,7 +362,7 @@ class CPU {
 					}
 					c = moveToPrevCommand();
 					if (c == null) {
-						throw new EndOfProgramError();
+						throw new BfEnd();
 					}
 				}
 			} else {
@@ -642,15 +642,21 @@ class CPU {
 		};
 		return f;
 	}
-}
-
-class EndOfProgramError {	
-	public function new():Void {
-		
+	
+	//Inserts a new cell before the current pointer, shifting all following cells to the right.
+	public function insertCell () : Void {
+		if (programType >= 2 && !comment){
+			bf.addCell(pointer);
+		}
+		moveToNextCommand();
 	}
 	
-	public function toString():String {
-		return "End of program reached";
+	//Removes the cell at the current pointer, shifting all following cells to the left.
+	public function removeCell () : Void {
+		if (programType >= 2 && !comment){
+			bf.removeCell(pointer);
+		}
+		moveToNextCommand();
 	}
 }
 
@@ -660,7 +666,7 @@ class EndOfInputError {
 	}
 	
 	public function toString():String {
-		return "End of input reached";
+		return "BF_END_OF_INPUT";
 	}
 }
 

@@ -48,10 +48,6 @@ class Brainfuck {
 	}
 	
 	public function reset(?program:String = "", ?type:Null<Int>, ?input:Input, ?output:Output, ?memory:UInt8Array):Brainfuck {
-		this.input = input == null ? new StringInput("") : input;
-		this.output = output == null ? new BytesOutput() : output;
-		this.memory = memory == null ? new UInt8Array(memorySize) : memory;
-		
 		cpu.init(program, type, this.input, this.output, this);
 		
 		return this;
@@ -63,9 +59,9 @@ class Brainfuck {
 				try{
 					cpu.step();
 				}catch (e:Dynamic){
-					//trace(e);
+					trace(e);
 					error = e;
-					throw e;
+					//throw e;
 				}
 			}else{
 				break;
@@ -77,13 +73,52 @@ class Brainfuck {
 	
 	//Adds a cell at the pointer, shifting right cells
 	public function addCell(pointer: UInt) : Void {
+		var newMemory : UInt8Array = new UInt8Array(memory.length+1);
 		
+		for (i in 0...memory.length+1){
+			if (i < pointer){
+				newMemory.set(i, memory.get(i));
+			}else if (i == pointer){
+				newMemory.set(i, 0);
+			}else{
+				newMemory.set(i, memory.get(i-1));
+			}
+		}
+		
+		//Sifht all locks too
+		for (i in 0...lock.length){
+			if (lock[i] >= pointer){
+				lock[i] = lock[i] + 1;
+			}
+		}
+		
+		memory = newMemory;
 	}
 
 	//Removes a cell at the pointer, unshifting right cells
 	public function removeCell(pointer: UInt) : Void {
 		if (!isLocked(pointer)){
+			if (memory.length-1 == 0){
+				throw new MemoryLengthTooSmall();
+			}
+			var newMemory : UInt8Array = new UInt8Array(memory.length-1);
 			
+			for (i in 0...memory.length-1){
+				if (i < pointer){
+					newMemory.set(i, memory.get(i));
+				}else{
+					newMemory.set(i, memory.get(i+1));
+				}
+			}
+			
+			//Unsifht all locks too
+			for (i in 0...lock.length){
+				if (lock[i] > pointer){
+					lock[i] = lock[i] - 1;
+				}
+			}
+			
+			memory = newMemory;
 		}
 	}
 	
@@ -147,12 +182,22 @@ class Brainfuck {
 	}
 }
 
-class InvalidMemoryAccessError {	
+class InvalidMemoryAccessError {
 	public function new():Void {
 		
 	}
 	
 	public function toString():String {
-		return "Invalid memory access";
+		return "BF_INVALID_MEMORY_ACCESS";
+	}
+}
+
+class MemoryLengthTooSmall {	
+	public function new():Void {
+		
+	}
+	
+	public function toString():String {
+		return "BF_MEMORY_LENGTH_ZERO";
 	}
 }

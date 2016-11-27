@@ -12,7 +12,7 @@ import haxe.io.UInt8Array;
 * @author Hugo Diranzo
 */
 class Main {
-	private var bf:Brainfuck = new Brainfuck();
+	private static var bf:Brainfuck = new Brainfuck();
 	
 	private static function onFinish(x:Dynamic):Void{
 		trace(x);
@@ -41,7 +41,7 @@ class Main {
 		
 		//Hello world with forced type
 		//And yes, this one does nothing interesting since data initialisation is only Type II or above
-		trace(bf.execute("[.>]@Hello World!").getOutput(), 1);	//Forced Type I
+		trace(bf.execute("[.>]@Hello World!", 1).getOutput());	//Forced Type I
 		*/
 		
 		
@@ -64,5 +64,6 @@ class Main {
 		});
 
 		ga.evaluateFirstPopulation(bf);
+		
 	}
 }

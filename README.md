@@ -29,7 +29,7 @@ Type 2 memory system is what **allows self-modifying brainfuck**
   0 : Vanilla Brainfuck  
   1 : Extended Type I  
   2 : Extended Type II  
-  3 : Extended Type III (missing parentheses commands)
+  3 : Extended Type III
 
 ###Genetic Algorithm
 I'm currently working on the Genetic Algorithm, which will be used to generate brainfuck programs (it's far from finished yet).
@@ -83,7 +83,3 @@ This Avida like program required to extend the commands with new simulation rela
 - [ ] Finish the genetic algorithm  
   - [x] Function to kill part of the population  
   - [ ] Function to refill the population (using nearest best parents)
-- [ ] Implement missing commands (parentheses)  
-  This require to implement how locks are handled when the memory size changes  
-  If a byte is removed or added somewhere, all the locks should have their position updated
-  
