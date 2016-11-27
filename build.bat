@@ -1,1 +1,1 @@
-haxe build.hxml
+haxe build.hxml && echo Build finished !

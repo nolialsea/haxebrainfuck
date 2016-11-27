@@ -93,7 +93,7 @@ class CPU {
 	public function init(?program:String = "", ?type:Null<Int>, ?input: Input, ?output:Output, ?bf:Brainfuck) {
 		error = null;
 		id = Math.random();
-		maxStep = 42000;
+		maxStep = 12000;
 		programType = type == null ? getProgramType(program) : type;
 		storage = new UInt8Array(1);
 		storagePointer = null;
@@ -186,13 +186,13 @@ class CPU {
 				
 			case '+': //Increment the byte at the pointer.
 				if (!comment){
-					bf.increment(pointer, id);
+					bf.increment(pointer);
 				}
 				moveToNextCommand();
 				
 			case '-': //Decrement the byte at the pointer.
 				if (!comment){
-					bf.decrement(pointer, id);
+					bf.decrement(pointer);
 				}
 				moveToNextCommand();
 				
@@ -309,12 +309,12 @@ class CPU {
 				if (programType >= 1 && !comment){
 					if (storagePointer == null){
 						if (programType > 1){
-							bf.assign(0, id, memory.get(pointer));
+							bf.assign(0, memory.get(pointer));
 						}else{
 							storage.set(0, memory.get(pointer));
 						}
 					}else{
-						bf.assign(storagePointer, id, memory.get(pointer));
+						bf.assign(storagePointer, memory.get(pointer));
 					}
 				}
 				moveToNextCommand();
@@ -323,12 +323,12 @@ class CPU {
 				if (programType >= 1 && !comment){
 					if (storagePointer == null){
 						if (programType > 1){
-							bf.assign(pointer, id, memory.get(0));
+							bf.assign(pointer, memory.get(0));
 						}else{
-							bf.assign(pointer, id, storage.get(0));
+							bf.assign(pointer, storage.get(0));
 						}
 					}else{
-						bf.assign(pointer, id, memory.get(storagePointer));
+						bf.assign(pointer, memory.get(storagePointer));
 					}
 				}
 				moveToNextCommand();
@@ -337,12 +337,12 @@ class CPU {
 				if (programType >= 1 && !comment){
 					if (storagePointer == null){
 						if (programType > 1){
-							bf.assign(pointer, id, memory.get(pointer) ^ memory.get(0));
+							bf.assign(pointer, memory.get(pointer) ^ memory.get(0));
 						}else{
-							bf.assign(pointer, id, memory.get(pointer) ^ storage.get(0));
+							bf.assign(pointer, memory.get(pointer) ^ storage.get(0));
 						}
 					}else{
-						bf.assign(pointer, id, memory.get(pointer) ^ memory.get(storagePointer));
+						bf.assign(pointer, memory.get(pointer) ^ memory.get(storagePointer));
 					}
 				}
 				moveToNextCommand();
@@ -350,12 +350,12 @@ class CPU {
 				if (programType >= 1 && !comment){
 					if (storagePointer == null){
 						if (programType > 1){
-							bf.assign(pointer, id, memory.get(pointer) & memory.get(0));
+							bf.assign(pointer, memory.get(pointer) & memory.get(0));
 						}else{
-							bf.assign(pointer, id, memory.get(pointer) & storage.get(0));
+							bf.assign(pointer, memory.get(pointer) & storage.get(0));
 						}
 					}else{
-						bf.assign(pointer, id, memory.get(pointer) & memory.get(storagePointer));
+						bf.assign(pointer, memory.get(pointer) & memory.get(storagePointer));
 					}
 				}
 				moveToNextCommand();
@@ -363,28 +363,28 @@ class CPU {
 				if (programType >= 1 && !comment){
 					if (storagePointer == null){
 						if (programType > 1){
-							bf.assign(pointer, id, memory.get(pointer) | memory.get(0));
+							bf.assign(pointer, memory.get(pointer) | memory.get(0));
 						}else{
-							bf.assign(pointer, id, memory.get(pointer) | storage.get(0));
+							bf.assign(pointer, memory.get(pointer) | storage.get(0));
 						}
 					}else{
-						bf.assign(pointer, id, memory.get(pointer) | memory.get(storagePointer));
+						bf.assign(pointer, memory.get(pointer) | memory.get(storagePointer));
 					}
 				}
 				moveToNextCommand();
 			case '{': //Performs a single left logical shift of the byte at the pointer.
 				if (programType >= 1 && !comment){
-					bf.assign(pointer, id, memory.get(pointer) << 1);
+					bf.assign(pointer, memory.get(pointer) << 1);
 				}
 				moveToNextCommand();
 			case '}': //Performs a single right logical shift of the byte at the pointer.
 				if (programType >= 1 && !comment){
-					bf.assign(pointer, id, memory.get(pointer) >> 1);
+					bf.assign(pointer, memory.get(pointer) >> 1);
 				}
 				moveToNextCommand();
 			case '~': //Performs a bitwise NOT operation on the byte at the pointer (all 1's and 0's are swapped).
 				if (programType >= 1 && !comment){
-					bf.assign(pointer, id, ~memory.get(pointer));
+					bf.assign(pointer, ~memory.get(pointer));
 				}
 				moveToNextCommand();
 			case '?': //Sets the current point of execution to the location of the pointer.
@@ -395,45 +395,45 @@ class CPU {
 			case '*': //Multiplies the byte at the pointer with the byte in storage, storing its result in the byte at the pointer.
 				if (programType >= 2 && !comment){
 					if (storagePointer == null){
-						bf.assign(pointer, id, memory.get(pointer) * memory.get(0));
+						bf.assign(pointer, memory.get(pointer) * memory.get(0));
 					}else{
-						bf.assign(pointer, id, memory.get(pointer) * memory.get(storagePointer));
+						bf.assign(pointer, memory.get(pointer) * memory.get(storagePointer));
 					}
 				}
 				moveToNextCommand();
 			case '/': //Divides the byte at the pointer with the byte in storage, storing its result in the byte at the pointer.
 				if (programType >= 2 && !comment){
 					if (storagePointer == null){
-						bf.assign(pointer, id, Std.int(memory.get(pointer) / (memory.get(0) == 0 ? 1 : memory.get(0))));
+						bf.assign(pointer, Std.int(memory.get(pointer) / (memory.get(0) == 0 ? 1 : memory.get(0))));
 					}else{
-						bf.assign(pointer, id, Std.int(memory.get(pointer) / (memory.get(storagePointer) == 0 ? 1 : memory.get(storagePointer))));
+						bf.assign(pointer, Std.int(memory.get(pointer) / (memory.get(storagePointer) == 0 ? 1 : memory.get(storagePointer))));
 					}
 				}
 				moveToNextCommand();
 			case '=': //Adds the byte at the pointer with the byte in storage, storing its result in the byte at the pointer.
 				if (programType >= 2 && !comment){
 					if (storagePointer == null){
-						bf.assign(pointer, id, memory.get(pointer) + memory.get(0));
+						bf.assign(pointer, memory.get(pointer) + memory.get(0));
 					}else{
-						bf.assign(pointer, id, memory.get(pointer) + memory.get(storagePointer));
+						bf.assign(pointer, memory.get(pointer) + memory.get(storagePointer));
 					}
 				}
 				moveToNextCommand();
 			case '_': //Subtracts the byte at the pointer with the byte in storage, storing its result in the byte at the pointer.
 				if (programType >= 2 && !comment){
 					if (storagePointer == null){
-						bf.assign(pointer, id, memory.get(pointer) - memory.get(0));
+						bf.assign(pointer, memory.get(pointer) - memory.get(0));
 					}else{
-						bf.assign(pointer, id, memory.get(pointer) - memory.get(storagePointer));
+						bf.assign(pointer, memory.get(pointer) - memory.get(storagePointer));
 					}
 				}
 				moveToNextCommand();
 			case '%': //Preforms a Modulo operation on the byte at the pointer and the byte in storage, storing its result in the byte at the pointer.
 				if (programType >= 2 && !comment){
 					if (storagePointer == null){
-						bf.assign(pointer, id, memory.get(pointer) % (memory.get(0) == 0 ? 1 : memory.get(0)));
+						bf.assign(pointer, memory.get(pointer) % (memory.get(0) == 0 ? 1 : memory.get(0)));
 					}else{
-						bf.assign(pointer, id, memory.get(pointer) % (memory.get(storagePointer) == 0 ? 1 : memory.get(storagePointer)));
+						bf.assign(pointer, memory.get(pointer) % (memory.get(storagePointer) == 0 ? 1 : memory.get(storagePointer)));
 					}
 				}
 				moveToNextCommand();
@@ -475,13 +475,13 @@ class CPU {
 			case 'l': //Unlocks a previously locked cell and allows it to be edited again.
 			//Calling this on a already unlocked cell does nothing.
 				if (programType >= 3 && !comment){
-					bf.unlockCell(pointer, id);
+					bf.unlockCell(pointer);
 				}
 				moveToNextCommand();
 			case 'L': //Locks a cell and prevents it from being changed. 
 			//Any attempt to change it silently fails. (This includes deleting it)
 				if (programType >= 3 && !comment){
-					bf.lockCell(pointer, id);
+					bf.lockCell(pointer);
 				}
 				moveToNextCommand();
 			case '#': //All following characters between this and the next # are ignored (unless they are in the data area).
@@ -495,7 +495,7 @@ class CPU {
 				//Turns values 0 to F to their hex equivalents and initializes the cell to be the value of these multiplied by 16 or 0x10.
 				//So F would change the value of the cell to (15*16) 240 or 0xF0, where as 5 changes it to (5*16) 80 or 0x50.
 				if (programType >= 3 && ~/[0-9A-F]/.match(command)){
-					bf.assign(pointer, id, "0123456789ABCDEF".indexOf(command)*16);
+					bf.assign(pointer, "0123456789ABCDEF".indexOf(command)*16);
 				}
 				moveToNextCommand();
 				return false;

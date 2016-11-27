@@ -2,9 +2,9 @@ package;
 
 import genetic.GeneticAlgorithm;
 import genetic.Individual;
+import brainfuck.Brainfuck;
 import haxe.io.StringInput;
 import haxe.io.BytesOutput;
-import brainfuck.Brainfuck;
 import haxe.io.UInt8Array;
 
 /**

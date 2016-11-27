@@ -18,8 +18,8 @@ class Brainfuck {
 	public var memory:UInt8Array;
 	public var input:Input;
 	public var output:Output;
-	public var lock: Array<Lock> = new Array<Lock>();
-	public var cpu: Array<CPU> = new Array<CPU>();
+	public var lock: Array<UInt> = new Array<UInt>();
+	public var cpu: CPU;
 	public var error: Null<Dynamic> = null;
 	
 	public function execute (bfCode: String, ?type:Null<Int> = null) : Brainfuck{
@@ -42,7 +42,7 @@ class Brainfuck {
 		this.memory = memory == null ? new UInt8Array(memorySize) : memory;
 		lock.splice(0, lock.length);
 		error = null;
-		cpu.push(new CPU(program, type, this.input, this.output, this));
+		cpu = new CPU(program, type, this.input, this.output, this);
 		
 		return this;
 	}
@@ -52,7 +52,7 @@ class Brainfuck {
 		this.output = output == null ? new BytesOutput() : output;
 		this.memory = memory == null ? new UInt8Array(memorySize) : memory;
 		
-		cpu[0].init(program, type, this.input, this.output, this);
+		cpu.init(program, type, this.input, this.output, this);
 		
 		return this;
 	}
@@ -60,18 +60,14 @@ class Brainfuck {
 	public function run(): Brainfuck {
 		while (true){
 			var allDead = true;
-			for (c in 0...cpu.length){
-				if (cpu[c].alive){
-					allDead = false;
-					try{
-						cpu[c].step();
-					}catch (e:Dynamic){
-						trace(e);
-						error = e;
-					}
+			if (cpu.alive){
+				try{
+					cpu.step();
+				}catch (e:Dynamic){
+					trace(e);
+					error = e;
 				}
 			}
-			if (allDead) break;
 		}
 
 		return this;
@@ -79,42 +75,33 @@ class Brainfuck {
 	
 	public function isLocked (pointer:UInt) : Bool{
 		for (l in 0...lock.length){
-			if (lock[l].position == pointer){
+			if (lock[l] == pointer){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public function lockCell (pointer:UInt, id: Float) : Bool{
+	public function lockCell (pointer:UInt) : Bool{
 		for (l in 0...lock.length){
-			if (lock[l].position == pointer){
+			if (lock[l] == pointer){
 				return false;
 			}
 		}
-		lock.push(new Lock(pointer, id));
+		lock.push(pointer);
 		return true;
 	}
 	
-	public function unlockCell (pointer:UInt, id: Float){
+	public function unlockCell (pointer:UInt){
 		for (l in 0...lock.length){
-			if (lock[l].position == pointer && lock[l].owner == id){
+			if (lock[l] == pointer){
 				lock.remove(lock[l]);
 				break;
 			}
 		}
 	}
 	
-	public function isLockOwner (pointer:UInt, id: Float) : Bool{
-		for (l in 0...lock.length){
-			if (lock[l].position == pointer && lock[l].owner == id){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public function increment(pointer:UInt, id: Float): Void {
+	public function increment(pointer:UInt): Void {
 		if (!isLocked(pointer)){
 			try {
 				memory.set(pointer, Std.int(memory.get(pointer) + 1));
@@ -124,7 +111,7 @@ class Brainfuck {
 		}
 	}
 	
-	public function decrement(pointer:UInt, id: Float): Void {
+	public function decrement(pointer:UInt): Void {
 		if (!isLocked(pointer)){
 			try {
 				memory.set(pointer,Std.int(memory.get(pointer)-1));
@@ -134,7 +121,7 @@ class Brainfuck {
 		}
 	}
 	
-	public function assign(pointer:UInt, id: Float, value: Int): Void {
+	public function assign(pointer:UInt, value: Int): Void {
 		if (!isLocked(pointer)){
 			try {
 				memory.set(pointer, value);
