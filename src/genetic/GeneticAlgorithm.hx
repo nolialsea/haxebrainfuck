@@ -101,8 +101,10 @@ class GeneticAlgorithm {
 							if (k == 0 && l == 0){
 								continue;
 							}
-							if ( i+k >= 0 && i+k < population.length && j+l >= 0 && j+l < population.length && population[i+k][j+l] != null){
-								nearest.push(population[i][j]);
+							if ( i + k >= 0 && i + k < population.length && j + l >= 0 && j + l < population.length){
+								if (population[i + k][j + l] != null){
+									nearest.push(population[i + k][j + l]);
+								}
 							}
 						}
 					}
