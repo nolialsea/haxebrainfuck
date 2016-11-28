@@ -22,8 +22,8 @@ class Brainfuck {
 	public var cpu: CPU;
 	public var error: Null<Dynamic> = null;
 	
-	public function execute (bfCode: String, ?type:Null<Int> = null, ?input:Input) : Brainfuck{
-		init(bfCode, type, input);
+	public function execute (bfCode: String, ?type:Null<Int> = null, ?input:String) : Brainfuck{
+		init(bfCode, type, new StringInput(input));
 		run();
 		return this;
 	}
@@ -59,9 +59,9 @@ class Brainfuck {
 				try{
 					cpu.step();
 				}catch (e:Dynamic){
-					trace(e);
+					//trace(e);
 					error = e;
-					//throw e;
+					throw e;
 				}
 			}else{
 				break;

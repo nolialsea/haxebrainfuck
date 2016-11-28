@@ -43,14 +43,19 @@ class Main {
 		//And yes, this one does nothing interesting since data initialisation is only Type II or above
 		trace(bf.execute("[.>]@Hello World!", 1).getOutput());	//Forced Type I
 		*/
-		
+		try{
+			bf.execute("+++++[>,.<-]@", null, "test");
+		}catch (e:Dynamic){
+			trace(e);
+			trace(bf.getOutput());
+		}
 		
 		var ga : GeneticAlgorithm = new GeneticAlgorithm(32, function (bf: Brainfuck, indi:Individual) : Float{
 			var fitness: Float = 0;
 			var bfOutput : String;
 			//trace(indi.dna);
 			try{
-				bf.execute(indi.dna, null, new StringInput("12"));
+				bf.execute(indi.dna, null, "12");
 			}catch (e:Dynamic){}
 			
 			bfOutput = bf.getOutput();

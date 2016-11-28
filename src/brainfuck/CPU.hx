@@ -284,7 +284,7 @@ class CPU {
 			}
 		} catch (e:Eof) {
 			//Fails silently
-			//throw new EndOfInputError();
+			throw new EndOfInputError();
 		}
 		
 		moveToNextCommand();
