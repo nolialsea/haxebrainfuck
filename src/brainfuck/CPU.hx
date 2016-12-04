@@ -43,7 +43,7 @@ class CPU {
 	public function init(?program:String = "", ?type:Null<Int>, ?input: Input, ?output:Output, ?bf:Brainfuck) {
 		error = null;
 		id = Math.random();
-		maxStep = 12000;
+		
 		programType = type == null ? getProgramType(program) : type;
 		storage = new UInt8Array(1);
 		storagePointer = null;
@@ -59,6 +59,7 @@ class CPU {
 		this.output = output == null ? new BytesOutput() : output;
 		this.bf = bf;
 		this.memory = bf.memory;
+		maxStep = bf.maxStep;
 		setInitialData(program, initialData);
 		alive = true;
 		initCommands();
@@ -284,7 +285,8 @@ class CPU {
 			}
 		} catch (e:Eof) {
 			//Fails silently
-			throw new EndOfInputError();
+			memory.set(pointer,0);
+			//throw new EndOfInputError();
 		}
 		
 		moveToNextCommand();

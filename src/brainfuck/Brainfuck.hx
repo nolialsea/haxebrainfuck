@@ -15,6 +15,7 @@ import haxe.io.UInt8Array;
 
 class Brainfuck {
 	public var memorySize:UInt = 256;
+	public var maxStep: UInt = 12000;
 	public var memory:UInt8Array;
 	public var input:Input;
 	public var output:Output;

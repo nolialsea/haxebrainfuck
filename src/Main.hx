@@ -6,6 +6,7 @@ import brainfuck.Brainfuck;
 import haxe.io.StringInput;
 import haxe.io.BytesOutput;
 import haxe.io.UInt8Array;
+import nolib.Nolib;
 
 /**
 * ...
@@ -31,20 +32,11 @@ class Main {
 		threadPool.blockRunAllTasks();
 		*/
 		
-		/*
-		//Hello world with different types
-		trace(bf.execute("++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.").getOutput());
-		trace(bf.execute("++++{+{{{.$>-}}^>++{{{++$<^.$>[-]++{{+^..$>+++|.>++{{{{.<<<<$>>>>>-}}}^.<<.+++.<.<-.>>>+.@").getOutput());
-		trace(bf.execute(">++{{$+*.>!++$*+.>!*=--..$>!+++.>++{${*.>++$</$>![<]!-$>=.>>>.+++.<.<-.<<=+++.@").getOutput());
-		trace(bf.execute("[.>]@Hello World!").getOutput());
-		trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.--------.2+.").getOutput());
+		bf.maxStep = 12000;
+		bf.memorySize = 128;
 		
-		//Hello world with forced type
-		//And yes, this one does nothing interesting since data initialisation is only Type II or above
-		trace(bf.execute("[.>]@Hello World!", 1).getOutput());	//Forced Type I
-		*/
 		try{
-			bf.execute("+++++[>,.<-]@", null, "test");
+			bf.execute("+[,.]@", null, "Brainfuck yeah !");
 		}catch (e:Dynamic){
 			trace(e);
 			trace(bf.getOutput());
@@ -64,11 +56,17 @@ class Main {
 				fitness += 256 - (Math.abs(bfOutput.charCodeAt(0) - "3".charCodeAt(0)));
 			}
 			
-			//if (fitness != 0) trace("Fitness: "+fitness);
+			if (fitness != 0) trace("Fitness: "+fitness);
 			return fitness;
 		});
-
+		
+		#if cpp
+			var t:Float = Sys.time();
+		#end
 		ga.evaluateFirstPopulation(bf);
+		#if cpp
+			trace(Nolib.fixedFloat(Sys.time() - t, 3));
+		#end
 		
 	}
 }
