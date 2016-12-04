@@ -7,6 +7,8 @@ import haxe.io.StringInput;
 import haxe.io.BytesOutput;
 import haxe.io.UInt8Array;
 import nolib.Nolib;
+import haxe.Log;
+import Sys;
 
 /**
 * ...
@@ -33,30 +35,38 @@ class Main {
 		*/
 		
 		bf.maxStep = 12000;
-		bf.memorySize = 128;
+		bf.memorySize = 256;
 		
-		try{
+		
+		/*try{
 			bf.execute("+[,.]@", null, "Brainfuck yeah !");
 		}catch (e:Dynamic){
 			trace(e);
 			trace(bf.getOutput());
-		}
+		}*/
 		
-		var ga : GeneticAlgorithm = new GeneticAlgorithm(32, function (bf: Brainfuck, indi:Individual) : Float{
+		var ga : GeneticAlgorithm = new GeneticAlgorithm(32, bf, function (indi:Individual) : Float{
 			var fitness: Float = 0;
 			var bfOutput : String;
 			//trace(indi.dna);
-			try{
-				bf.execute(indi.dna, null, "12");
-			}catch (e:Dynamic){}
 			
+			
+			var target = "Hello world !";
+			bf.execute(indi.dna, null);
 			bfOutput = bf.getOutput();
-			
 			if (bfOutput != null && bfOutput.length > 0) {
-				fitness += 256 - (Math.abs(bfOutput.charCodeAt(0) - "3".charCodeAt(0)));
+				for (i in 0...target.length){
+					if (i < bfOutput.length){
+						fitness += 256 - (Math.abs(bfOutput.charCodeAt(i) - target.charCodeAt(i)));
+					}
+				}
 			}
 			
-			if (fitness != 0) trace("Fitness: "+fitness);
+			if (bfOutput.length > target.length){
+				fitness -= (bfOutput.length - target.length);
+			}
+			
+			//if (fitness != 0) trace("Fitness: "+fitness);
 			return fitness;
 		});
 		
@@ -65,8 +75,25 @@ class Main {
 		#end
 		ga.evaluateFirstPopulation(bf);
 		#if cpp
-			trace(Nolib.fixedFloat(Sys.time() - t, 3));
+			Sys.println("\nFirst population evaluation time : " + Nolib.fixedFloat(Sys.time() - t, 2) + 
+				" seconds for " +Math.pow(ga.populationSize, 2)+ " individuals");
 		#end
 		
+		var i:UInt = 0;
+		while (++i < 999999 || true){
+			#if cpp
+				var t:Float = Sys.time();
+			#end
+			ga.makeDarwinDoHisJob();
+			ga.repopulate();
+			#if cpp
+				//if (i%10 == 0) Sys.println("\nGeneration " + i +" executed in " + Nolib.fixedFloat(Sys.time() - t, 2) + " seconds");
+			#else
+				//trace("Generation " + i);
+			#end
+			
+		}
 	}
+	
+	
 }

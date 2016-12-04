@@ -10,7 +10,7 @@ trace(bf.programType);
 trace(bf.execute("++++{+{{{.$>-}}^>++{{{++$<^.$>[-]++{{+^..$>+++|.>++{{{{.<<<<$>>>>>-}}}^.<<.+++.<.<-.>>>+.@").getOutput());
 trace(bf.execute(">++{{$+*.>!++$*+.>!*=--..$>!+++.>++{${*.>++$</$>![<]!-$>=.>>>.+++.<.<-.<<=+++.@").getOutput());
 trace(bf.execute("[.>]@Hello World!").getOutput());
-trace(bf.execute("+++++[>,.<-]@").getOutput());
+trace(bf.execute("+++++[>,.<-]@", null, "Hello World!").getOutput());
 trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.--------.2+.").getOutput());
 ```
 Here the type of the brainfuck is assumed based on chars used  

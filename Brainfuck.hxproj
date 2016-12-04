@@ -46,7 +46,7 @@
   <options>
     <option showHiddenPaths="False" />
     <option testMovie="Custom" />
-    <option testMovieCommand="haxe build.hxml &amp;&amp; Run.bat" />
+    <option testMovieCommand="build &amp;&amp; runc" />
   </options>
   <!-- Plugin storage -->
   <storage />

@@ -14,6 +14,9 @@ import haxe.io.UInt8Array;
 */
 
 class Brainfuck {
+	public var legalChars = "><,.+-[]@$!^&|~{}?*/=_%():xXmMlL#0123456789ABCDEF";
+	public static var sLegalChars = "><,.+-[]@$!^&|~{}?*/=_%():xXmMlL#0123456789ABCDEF";
+	
 	public var memorySize:UInt = 256;
 	public var maxStep: UInt = 12000;
 	public var memory:UInt8Array;
@@ -27,6 +30,16 @@ class Brainfuck {
 		init(bfCode, type, new StringInput(input));
 		run();
 		return this;
+	}
+	
+	public function escape(s: String){
+		var newString : String = "";
+		for (i in 0...s.length){
+			if (legalChars.indexOf(s.charAt(i)) != -1){
+				newString += s.charAt(i);
+			}
+		}
+		return newString;
 	}
 	
 	public function getOutput() : String {
@@ -62,7 +75,8 @@ class Brainfuck {
 				}catch (e:Dynamic){
 					//trace(e);
 					error = e;
-					throw e;
+					break;
+					//throw e;
 				}
 			}else{
 				break;
