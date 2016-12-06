@@ -17,6 +17,10 @@ class Nolib {
 	public static function fixedFloat(v:Float, ?precision:Int = 2):Float{
 		return Math.round( v * Math.pow(10, precision) ) / Math.pow(10, precision);
 	}
+	
+	public static function randint(from:Int, to:Int):Int{
+		return from + Math.floor(((to - from) * Math.random()));
+	}
 
 	//If you know how to achieve that more efficiently, i'm willing to know
 	public static function loop(start:Int, end:Int, step:Int = 1, func:Int -> Void){

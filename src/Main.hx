@@ -36,16 +36,9 @@ class Main {
 		
 		bf.maxStep = 12000;
 		bf.memorySize = 256;
-		
-		
-		/*try{
-			bf.execute("+[,.]@", null, "Brainfuck yeah !");
-		}catch (e:Dynamic){
-			trace(e);
-			trace(bf.getOutput());
-		}*/
-		
-		var ga : GeneticAlgorithm = new GeneticAlgorithm(32, bf, function (indi:Individual) : Float{
+		var nbIndividual = 32;
+
+		var ga : GeneticAlgorithm = new GeneticAlgorithm(nbIndividual, bf, function (indi:Individual) : Float{
 			var fitness: Float = 0;
 			var bfOutput : String;
 			//trace(indi.dna);
@@ -66,6 +59,8 @@ class Main {
 				fitness -= (bfOutput.length - target.length);
 			}
 			
+			fitness -= indi.dna.length/1000;
+			
 			//if (fitness != 0) trace("Fitness: "+fitness);
 			return fitness;
 		});
@@ -85,7 +80,7 @@ class Main {
 				var t:Float = Sys.time();
 			#end
 			ga.makeDarwinDoHisJob();
-			ga.repopulate();
+			ga.repopulate(i);
 			#if cpp
 				//if (i%10 == 0) Sys.println("\nGeneration " + i +" executed in " + Nolib.fixedFloat(Sys.time() - t, 2) + " seconds");
 			#else

@@ -1,4 +1,5 @@
 package genetic;
+import haxe.Int64;
 
 /**
 * ...
@@ -8,6 +9,7 @@ class Individual {
 	public var dna: String;
 	public var fitness: Float;
 	public var position: Array<UInt>;
+	public var id: Int64 = -1;
 
 	public function new(?position: Array<UInt>, ?dna: String, ?fitness: Float) {
 		init(position, dna, fitness);

@@ -1,5 +1,7 @@
 package genetic;
 import brainfuck.Brainfuck;
+import haxe.Int64;
+import nolib.Nolib;
 import nolib.Nolib.loop;
 import nolib.Nolib.shuffleArray;
 
@@ -16,6 +18,7 @@ class GeneticAlgorithm {
 	public var bestIndividual : Individual = new Individual();
 	public var debug : Bool = false;
 	public var nbGene : UInt = 48;
+	private var nextId: Int64 = 0;
 	
 	public function new(?populationSize:UInt = 100, bf: Brainfuck, fitnessFunction: Individual -> Float) {
 		init(populationSize, bf, fitnessFunction);
@@ -53,13 +56,14 @@ class GeneticAlgorithm {
 		if (this.bf == null) this.bf = bf;
 		for (i in 0...populationSize){
 			for (j in 0...populationSize){
-				population[i][j].fitness = getFitness(population[i][j]);
+				population[i][j].fitness = getFitness(population[i][j], 0);
 			}
 		}
 	}
 	
-	public function getFitness(indi: Individual) : Float{
+	public function getFitness(indi: Individual, ?generation: Int) : Float{
 		var fitness = fitnessFunction(indi);
+		indi.id = nextId++;
 		if (fitness > bestIndividual.fitness) {
 			bestIndividual.dna = indi.dna;
 			bestIndividual.fitness = fitness;
@@ -68,7 +72,8 @@ class GeneticAlgorithm {
 			bestIndividual.position.push(indi.position[1]);
 			#if cpp
 				bf.execute(indi.dna,null,"Hello world !");
-				Sys.println("\nNew Best ! ");
+				Sys.println("\nNew Best at generation " + generation + " !");
+				Sys.println("Best ID         : " + indi.id);
 				Sys.println("Best DNA        : " + indi.dna);
 				Sys.println("Best DNA length : " + indi.dna.length);
 				Sys.println("Best fitness    : " + fitness);
@@ -111,7 +116,7 @@ class GeneticAlgorithm {
 	}
 	
 	//Fills the holes in the population
-	public function repopulate() : Void {
+	public function repopulate(?generation : Int) : Void {
 		var nbIndividualBorn : UInt = 0;
 		for (i in 0...population.length){
 			for (j in 0...population[i].length){
@@ -148,11 +153,11 @@ class GeneticAlgorithm {
 					}
 					
 					if (Math.random()*10000 < 1){
-						indi.dna = "[.>]@Hello World!";
+						//indi.dna = "[.>]@Hello World!";
 					}
 					
 					indi.position = [i,j];
-					indi.fitness = getFitness(indi);
+					indi.fitness = getFitness(indi, generation);
 					population[i][j] = indi;
 					nbIndividualBorn ++;
 				}
@@ -302,8 +307,50 @@ class GeneticAlgorithm {
 		return indi;
 	}
 	
-	//Single point swap
+	//Swaps two random genes
 	public function mutationGenesSwap(indi: Individual) : Individual {
+		var newDna : String = "";
+		var indice1 : UInt = Math.floor(Math.random() * indi.dna.length);
+		var indice2 : UInt = Math.floor(Math.random() * indi.dna.length);
+		
+		if (debug) trace("Mutation Gene Swap");
+		if (debug) trace("DNA parent : " + bf.escape(indi.dna));
+		
+		for (i in 0...indi.dna.length){
+			if (i == indice1){
+				newDna += indi.dna.charAt(indice2);
+			}else if (i == indice2){
+				newDna += indi.dna.charAt(indice1);
+			}else{
+				newDna += indi.dna.charAt(i);
+			}
+		}
+		
+		indi.dna = newDna;
+		return indi;
+	}
+	
+	//Swaps two random block of genes
+	public function mutationGenesSwapBlock(indi: Individual) : Individual {
+		var newDna : String = "";
+		var length : UInt = Nolib.randint(2,5);
+		var indice1 : UInt = Math.floor(Math.random() * (indi.dna.length-length));
+		var indice2 : UInt = Math.floor(Math.random() * (indi.dna.length-length));
+		
+		if (debug) trace("Mutation Gene Swap");
+		if (debug) trace("DNA parent : " + bf.escape(indi.dna));
+		
+		for (i in 0...indi.dna.length){
+			if (i == indice1){
+				newDna += indi.dna.charAt(indice2);
+			}else if (i == indice2){
+				newDna += indi.dna.charAt(indice1);
+			}else{
+				newDna += indi.dna.charAt(i);
+			}
+		}
+		
+		indi.dna = newDna;
 		return indi;
 	}
 }
