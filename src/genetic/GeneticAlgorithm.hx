@@ -17,7 +17,7 @@ class GeneticAlgorithm {
 	public var bf : Brainfuck;
 	public var bestIndividual : Individual = new Individual();
 	public var debug : Bool = false;
-	public var nbGene : UInt = 48;
+	public var nbGene : UInt = 64;
 	private var nextId: Int64 = 0;
 	
 	public function new(?populationSize:UInt = 100, bf: Brainfuck, fitnessFunction: Individual -> Float) {
@@ -31,6 +31,20 @@ class GeneticAlgorithm {
 		this.fitnessFunction = fitnessFunction;
 		
 		return this;
+	}
+	
+	public static function escapeString(s: String) : String{
+		var newString : String = "";
+		for (i in 0...s.length){
+			if (s.charCodeAt(i) >= 30 || s.charCodeAt(i) == 10){
+				newString += s.charAt(i);
+			}
+		}
+		return newString;
+	}
+	
+	public function escape(s: String) : String{
+		return GeneticAlgorithm.escapeString(s);
 	}
 	
 	//Returns random char
@@ -56,6 +70,12 @@ class GeneticAlgorithm {
 		if (this.bf == null) this.bf = bf;
 		for (i in 0...populationSize){
 			for (j in 0...populationSize){
+				if (i % 2 == 0 && j % 2 == 0){
+					//population[i][j].dna = "--------.2${|+++++.<..7-.!.X-|.7-.+++.7----.6++++.&!.+.";
+				}
+				
+				//population[i][j].dna = ".>.>.>@Hello world !";
+				
 				population[i][j].fitness = getFitness(population[i][j], 0);
 			}
 		}
@@ -65,20 +85,14 @@ class GeneticAlgorithm {
 		var fitness = fitnessFunction(indi);
 		indi.id = nextId++;
 		if (fitness > bestIndividual.fitness) {
+			bestIndividual.id = indi.id;
 			bestIndividual.dna = indi.dna;
 			bestIndividual.fitness = fitness;
+			bestIndividual.output = indi.output;
 			bestIndividual.position = new Array<UInt>();
 			bestIndividual.position.push(indi.position[0]);
 			bestIndividual.position.push(indi.position[1]);
-			#if cpp
-				bf.execute(indi.dna,null,"Hello world !");
-				Sys.println("\nNew Best at generation " + generation + " !");
-				Sys.println("Best ID         : " + indi.id);
-				Sys.println("Best DNA        : " + indi.dna);
-				Sys.println("Best DNA length : " + indi.dna.length);
-				Sys.println("Best fitness    : " + fitness);
-				Sys.println("Best output     : " + bf.getOutput());
-			#end
+			
 		}
 		
 		return fitness;
@@ -150,10 +164,6 @@ class GeneticAlgorithm {
 						indi = mutate(nearest[0]);
 					}else{
 						throw new NotEnoughParentsError();
-					}
-					
-					if (Math.random()*10000 < 1){
-						//indi.dna = "[.>]@Hello World!";
 					}
 					
 					indi.position = [i,j];
@@ -231,16 +241,19 @@ class GeneticAlgorithm {
 		
 		if (debug) trace("");
 		
+		var mutations : Array<Individual-> Void> = [
+			mutationGeneChange,
+			mutationGeneAdd,
+			mutationGeneRemove,
+			mutationGeneRemoveBlock,
+			mutationGenesSwap,
+			mutationGenesSwapBlock
+		];
+		
 		var b:UInt = 1;
 		while (b-- == 0 || Math.random()<0.5){
-			var rand = Math.random();
-			if (rand < 0.5){
-				mutationGeneChange(indi);
-			}else if (rand < 0.75){
-				mutationGeneAdd(indi);
-			}else{
-				mutationGeneRemove(indi);
-			}
+			var rand = Nolib.randint(0, mutations.length);
+			mutations[rand](indi);
 		}
 		
 		if (debug) trace("DNA child  : " + bf.escape(indi.dna));
@@ -279,6 +292,28 @@ class GeneticAlgorithm {
 		
 		for (i in 0...indi.dna.length){
 			if (i != indice){
+				newDna += indi.dna.charAt(i);
+			}
+		}
+		
+		indi.dna = newDna;
+		return indi;
+	}
+	
+	//Removes a random gene block
+	public function mutationGeneRemoveBlock(indi: Individual) : Individual {
+		var newDna : String = "";
+		var indice : UInt = Math.floor(Math.random() * indi.dna.length);
+		var length : UInt = Nolib.randint(2, 16);
+		if (debug) trace("Mutation Gene Remove");
+		if (debug) trace("DNA parent : " + bf.escape(indi.dna));
+		
+		for (i in 0...indi.dna.length){
+			if (i < indice){
+				newDna += indi.dna.charAt(i);
+			}else if (i >= indice && i < indice + length){
+				//Nothing
+			}else{
 				newDna += indi.dna.charAt(i);
 			}
 		}
@@ -332,25 +367,27 @@ class GeneticAlgorithm {
 	
 	//Swaps two random block of genes
 	public function mutationGenesSwapBlock(indi: Individual) : Individual {
-		var newDna : String = "";
-		var length : UInt = Nolib.randint(2,5);
-		var indice1 : UInt = Math.floor(Math.random() * (indi.dna.length-length));
-		var indice2 : UInt = Math.floor(Math.random() * (indi.dna.length-length));
-		
-		if (debug) trace("Mutation Gene Swap");
-		if (debug) trace("DNA parent : " + bf.escape(indi.dna));
-		
-		for (i in 0...indi.dna.length){
-			if (i == indice1){
-				newDna += indi.dna.charAt(indice2);
-			}else if (i == indice2){
-				newDna += indi.dna.charAt(indice1);
-			}else{
-				newDna += indi.dna.charAt(i);
+		if (indi.dna.length > 10){
+			var newDna : String = "";
+			var length : UInt = Nolib.randint(2,5);
+			var indice1 : UInt = Math.floor(Math.random() * (indi.dna.length-length));
+			var indice2 : UInt = Math.floor(Math.random() * (indi.dna.length-length));
+			
+			if (debug) trace("Mutation Gene Swap");
+			if (debug) trace("DNA parent : " + bf.escape(indi.dna));
+			
+			for (i in 0...indi.dna.length){
+				if (i >= indice1 && i < indice1+length){
+					newDna += indi.dna.charAt(indice2+(i-indice1));
+				}else if (i >= indice2 && i < indice2+length){
+					newDna += indi.dna.charAt(indice1+(i-indice2));
+				}else{
+					newDna += indi.dna.charAt(i);
+				}
 			}
+			
+			indi.dna = newDna;
 		}
-		
-		indi.dna = newDna;
 		return indi;
 	}
 }

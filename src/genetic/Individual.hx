@@ -10,6 +10,8 @@ class Individual {
 	public var fitness: Float;
 	public var position: Array<UInt>;
 	public var id: Int64 = -1;
+	public var type: UInt;
+	public var output: Null<String>;
 
 	public function new(?position: Array<UInt>, ?dna: String, ?fitness: Float) {
 		init(position, dna, fitness);
