@@ -1,7 +1,7 @@
 # haxebrainfuck
 Brainfuck interpreter with extended types in haxe
 
-###Example  
+### Example  
 ```haxe
 var bf: Brainfuck = new Brainfuck();
 bf.execute("++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.");
@@ -16,7 +16,7 @@ trace(bf.execute(">5--------.7-----------.+++++++..+++.<2.5+++++++.>.+++.------.
 Here the type of the brainfuck is assumed based on chars used  
 If you put only chars with vanilla instructions, it will be type 0
 
-###But I want vanilla Brainfuck with comments !
+### But I want vanilla Brainfuck with comments !
 Woah, calm the f*ck down, you can pass a second argument to enforce the type :  
 ```haxe
 trace(bf.execute("[.>]@Hello World!", 1).getOutput());	//Enforced Type 1
@@ -26,13 +26,13 @@ Note that this does nothing interesting since it is Extended II code, running wi
 Keep in mind that type 2 and above heavily change how the memory is handled, and what it contains (check [Extended Brainfuck] (https://esolangs.org/wiki/Extended_Brainfuck))  
 Type 2 memory system is what **allows self-modifying brainfuck**
 
-###Types
+### Types
   0 : Vanilla Brainfuck  
   1 : Extended Type I  
   2 : Extended Type II  
   3 : Extended Type III
 
-###Genetic Algorithm
+### Genetic Algorithm
 I'm currently working on the Genetic Algorithm, which will be used to generate brainfuck programs (it's far from finished yet).
 In theory, you can produce ANY program. But here is the catch... You have to ask the right thing.  
 
@@ -55,7 +55,7 @@ Since children are placed near to their parents, families can grow in space, or 
 In general, the bigger the population, the better, but here is the catch : the evolution will be slower too. 
 If you have more individuals, you'll have to do more calculation to make one "generation" live.
 
-###What the f*ck is a CPU ?
+### What the f*ck is a CPU ?
 Don't mind the CPU thing, I intended to run multiple "threads" on the same memory alternatively, but it was for another project.  
 Just consider it's a single core and it will be fine.  
 Basically, I intended to create a simplified [Avida] (https://en.wikipedia.org/wiki/Avida) like program.  
@@ -65,7 +65,7 @@ The ability to self modify its code at run time was not necessary, but is a HUGE
 This Avida like program required to extend the commands with new simulation related one, so i choosed not to do it on this project and reuse this one when the time come. *And it will come*.
 
 
-##TODO
+## TODO
 - [ ] Finish the genetic algorithm  
   - [x] Function to kill part of the population  
   - [ ] Function to refill the population (using nearest best parents)
